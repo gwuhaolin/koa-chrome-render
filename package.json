@@ -1,0 +1,29 @@
+{
+  "name": "koa-chrome-render",
+  "version": "0.0.1",
+  "description": "[chrome-render](https://github.com/gwuhaolin/chrome-render) middleware for koa",
+  "keywords": [
+    "koa",
+    "middleware",
+    "chrome render",
+    "server render",
+    "headless chrome",
+    "cache"
+  ],
+  "author": "gwuhaolin",
+  "engines": {
+    "node": ">= 7.0.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./demo/main.js"
+  },
+  "dependencies": {
+    "chrome-render": "0.0.6",
+    "redis": "^2.7.1"
+  },
+  "devDependencies": {
+    "koa": "^2.2.0",
+    "koa-static": "^3.0.0"
+  }
+}
