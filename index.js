@@ -37,15 +37,13 @@ function chromeRenderMiddleware(options = {
     }
 
     // use chrome-render render page to html string
-    const render = async function (request) {
-        const { href, header } = request;
-        const referrer = header['referrer'];
-        const cookieString = header['cookies'];
+    const render = async function (options) {
+        const { href, referrer, cookie } = options;
         let cookies;
-        if (typeof cookieString === 'string') {
+        if (typeof cookie === 'string') {
             cookies = {};
             try {
-                cookieString.split('; ').forEach(em => {
+                cookie.split('; ').forEach(em => {
                     const two = em.split('=');
                     cookies[two[0]] = cookies[two[1]];
                 })
@@ -61,29 +59,34 @@ function chromeRenderMiddleware(options = {
 
     return async function (ctx, next) {
         const { request } = ctx;
-        const { headers } = request;
+        const { href, headers } = request;
+        const referrer = headers['referrer'];
+        const cookie = headers['cookies'];
 
         let enableMiddleware = enable;
         if (typeof enable === 'function') {
             enableMiddleware = enable(request);
-        } else if (headers.hasOwnProperty('x-chrome-render')) {
-            // ignore request from chrome-render avoid loop
+        }
+
+        // ignore request from chrome-render avoid loop
+        if (headers.hasOwnProperty('x-chrome-render')) {
             enableMiddleware = false;
         }
 
         if (enableMiddleware) {
             // is a bot req
             let htmlString
+            let renderOptions = { href, referrer, cookie };
             if (cacher === undefined) {
                 // don't use cache
-                htmlString = await render(request);
+                htmlString = await render(renderOptions);
             } else {
                 // use cache
-                const { href } = request;
-                htmlString = await cacher.get(href);
+                const renderOptionsKey = JSON.stringify(renderOptions);
+                htmlString = await cacher.get(renderOptionsKey);
                 if (htmlString === null) {
-                    htmlString = await render(request);
-                    cacher.set(href, htmlString);
+                    htmlString = await render(renderOptions);
+                    cacher.set(renderOptionsKey, htmlString);
                 }
             }
             ctx.body = htmlString;

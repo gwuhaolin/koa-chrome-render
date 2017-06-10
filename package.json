@@ -1,6 +1,6 @@
 {
   "name": "koa-chrome-render",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "[chrome-render](https://github.com/gwuhaolin/chrome-render) middleware for koa",
   "keywords": [
     "koa",
@@ -23,6 +23,7 @@
     "redis": "^2.7.1"
   },
   "devDependencies": {
+    "is-mobile": "^0.2.2",
     "koa": "^2.2.0",
     "koa-static": "^3.0.0"
   }

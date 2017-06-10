@@ -37,13 +37,14 @@ app.use(chromeRenderMiddleware({
 
 app.listen(3000);
 ```
-you can download and run this [complete demo](./demo/main.js)
+you can download and run this [complete demo](./demo/main.js) which will use chrome-render for mobile device else return html direct.
 
 ## Options
 
 ### `enable` options
-should enable this middleware ? it's type can be boolean or function.
+should enable this middleware for every single request ? it's type can be boolean or function.
 if type is function, result = enable(request);
+this can be used to control whether use chrome to render in some case, e.g [koa-seo](https://github.com/gwuhaolin/koa-seo).
 
 ### `render` options
 options come form [chrome-render](https://github.com/gwuhaolin/chrome-render#chromerendernew-method-support-options)
@@ -51,6 +52,10 @@ options come form [chrome-render](https://github.com/gwuhaolin/chrome-render#chr
 - `renderTimeout`: `number` in ms, `chromeRender.render()` will throw error if html string can't be resolved after `renderTimeout`, default is 5000ms.
 - `ready`: `string` is an option param. if it's omitted chrome will return page html on dom event `domContentEventFired`, else will waiting util js in web page call `console.log(${ready's value})`. et `ready=_ready_flag` when web page is ready call `console.log('_ready_flag')`.
 - `script`: `string` is an option param. inject script source to evaluate when page on load
+
+also koa-chrome-render will read:
+- `referrer` from request HTTP headers and attach to chrome-render's request
+- `cookies` from request HTTP headers and attach to chrome-render's request
 
 ### `cache` options
 options `cache` is not required, if it's omitted will not use cache.
