@@ -50,5 +50,5 @@ also koa-chrome-render will read:
 - `cookies` from request HTTP headers and attach to chrome-render's request
 
 ## Dependencies
-1. [Chrome](https://www.google.com/chrome/browser/desktop/index.html) should install on you system
+1. [Chrome 59+](https://www.google.com/chrome/browser/desktop/index.html) should install on you system
 2. Nodejs 7+
