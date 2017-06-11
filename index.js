@@ -1,6 +1,5 @@
 'use strict';
 const ChromeRender = require('chrome-render');
-const Cacher = require('./cacher');
 
 function chromeRenderMiddleware(options = {
     // should enable this middleware ? it's type can be boolean or function
@@ -17,20 +16,12 @@ function chromeRenderMiddleware(options = {
         // string is an option param. inject script source to evaluate when page on load
         script: undefined,
     },
-    // is a object, is support all params in [node redis driver](https://github.com/NodeRedis/node_redis#options-object-properties),
-    // is not required, if it's omitted will not use cache.
-    cache: undefined,
 }) {
-    const { enable, render: chromeRenderOptions, cache: cacheOptions } = options;
+    const { enable, render: chromeRenderOptions, } = options;
 
-    let cacher;
     let chromeRender;
 
     if (enable) {
-        if (cacheOptions !== undefined) {
-            cacher = new Cacher(cacheOptions);
-        }
-
         (async () => {
             chromeRender = await ChromeRender.new(chromeRenderOptions);
         })();
@@ -74,22 +65,7 @@ function chromeRenderMiddleware(options = {
         }
 
         if (enableMiddleware) {
-            // is a bot req
-            let htmlString
-            let renderOptions = { href, referrer, cookie };
-            if (cacher === undefined) {
-                // don't use cache
-                htmlString = await render(renderOptions);
-            } else {
-                // use cache
-                const renderOptionsKey = JSON.stringify(renderOptions);
-                htmlString = await cacher.get(renderOptionsKey);
-                if (htmlString === null) {
-                    htmlString = await render(renderOptions);
-                    cacher.set(renderOptionsKey, htmlString);
-                }
-            }
-            ctx.body = htmlString;
+            ctx.body = await render({ href, referrer, cookie });
         } else {
             await next();
         }

@@ -8,7 +8,6 @@
 Modern web app use technique like react.js vue.js which render html in browser, this cause some problem like search engine can't crawl your page content or first screen slow on low performance device.
 
 This project want to solve this kind of problem in a general-purpose way which use headless chrome to render page result then return to client.
-koa-chrome-render also support redis cache to improve performance.
 
 ## Use
 ```bash
@@ -25,14 +24,7 @@ app.use(chromeRenderMiddleware({
     render: {
         // chrome-render #render() method ready option
         ready: '_page_ready',
-    },
-    cache: {
-        // redis address
-        host: '127.0.0.1',
-        port: 6379,
-        // cache expires time after 10 seconds, if omitted cache forever
-        expires: 10,
-    },
+    }
 }));
 
 app.listen(3000);
@@ -57,13 +49,6 @@ also koa-chrome-render will read:
 - `referrer` from request HTTP headers and attach to chrome-render's request
 - `cookies` from request HTTP headers and attach to chrome-render's request
 
-### `cache` options
-options `cache` is not required, if it's omitted will not use cache.
-`cache` is a object, is support all params in [node redis driver](https://github.com/NodeRedis/node_redis#options-object-properties),
-and below:
-- `expires`: `number` cache expires time in seconds, if omitted cache forever
-
 ## Dependencies
-1. depend on [Chrome Canary](https://www.google.com/chrome/browser/canary.html) now
+1. [Chrome](https://www.google.com/chrome/browser/desktop/index.html) should install on you system
 2. Nodejs 7+
-3. If `cache` options is used, redis is required
