@@ -1,7 +1,7 @@
 {
   "name": "koa-chrome-render",
-  "version": "0.0.2",
-  "description": "[chrome-render](https://github.com/gwuhaolin/chrome-render) middleware for koa",
+  "version": "0.0.3",
+  "description": "chrome-render middleware for koa",
   "keywords": [
     "koa",
     "middleware",
@@ -19,7 +19,7 @@
     "start": "node ./demo/main.js"
   },
   "dependencies": {
-    "chrome-render": "0.0.6",
+    "chrome-render": "0.0.7",
     "redis": "^2.7.1"
   },
   "devDependencies": {
