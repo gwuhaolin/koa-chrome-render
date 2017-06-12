@@ -1,6 +1,20 @@
 'use strict';
 const ChromeRender = require('chrome-render');
 
+function cookieString2Object(cookieString) {
+    let cookies;
+    if (typeof cookieString === 'string') {
+        cookies = {};
+        try {
+            cookieString.split('; ').forEach(em => {
+                const two = em.split('=');
+                cookies[two[0]] = cookies[two[1]];
+            })
+        } catch (_) {
+        }
+    }
+}
+
 function chromeRenderMiddleware(options = {
     // should enable this middleware ? it's type can be boolean or function
     // if type is function, result = enable(request);
@@ -27,32 +41,10 @@ function chromeRenderMiddleware(options = {
         })();
     }
 
-    // use chrome-render render page to html string
-    const render = async function (options) {
-        const { href, referrer, cookie } = options;
-        let cookies;
-        if (typeof cookie === 'string') {
-            cookies = {};
-            try {
-                cookie.split('; ').forEach(em => {
-                    const two = em.split('=');
-                    cookies[two[0]] = cookies[two[1]];
-                })
-            } catch (_) {
-            }
-        }
-        return await chromeRender.render(Object.assign({
-            url: href,
-            referrer,
-            cookies,
-        }, chromeRenderOptions));
-    }
-
     return async function (ctx, next) {
         const { request } = ctx;
         const { href, headers } = request;
-        const referrer = headers['referrer'];
-        const cookie = headers['cookies'];
+        const cookies = cookieString2Object(headers['cookies']);
 
         let enableMiddleware = enable;
         if (typeof enable === 'function') {
@@ -60,12 +52,30 @@ function chromeRenderMiddleware(options = {
         }
 
         // ignore request from chrome-render avoid loop
-        if (headers.hasOwnProperty('x-chrome-render')) {
+        if (headers['x-chrome-render'] !== undefined) {
             enableMiddleware = false;
         }
 
         if (enableMiddleware) {
-            ctx.body = await render({ href, referrer, cookie });
+            /**
+             * use chrome-render render page to html string
+             *
+             * {
+             *      // from request
+             *      url: `string` is required, web page's URL
+             *      cookies: `object {cookieName:cookieValue}` set HTTP cookies when request web page
+             *      headers: `object {headerName:headerValue}` add HTTP headers when request web page
+             *
+             *      // from user config
+             *      ready: `string` is an option param. if it's absent chrome will return page html on dom event `domContentEventFired`, else will waiting util js in web page call `console.log(${ready's value})`. et `ready=_ready_flag` when web page is ready call `console.log('_ready_flag')`.
+             *      script: inject script to evaluate when page on load,
+             * }
+             */
+            ctx.body = await chromeRender.render(Object.assign({
+                url: href,
+                headers,
+                cookies,
+            }, chromeRenderOptions));
         } else {
             await next();
         }

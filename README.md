@@ -46,7 +46,7 @@ options come form [chrome-render](https://github.com/gwuhaolin/chrome-render#chr
 - `script`: `string` is an option param. inject script source to evaluate when page on load
 
 also koa-chrome-render will read:
-- `referrer` from request HTTP headers and attach to chrome-render's request
+- `headers` from request HTTP headers and attach to chrome-render's request
 - `cookies` from request HTTP headers and attach to chrome-render's request
 
 ## Dependencies
