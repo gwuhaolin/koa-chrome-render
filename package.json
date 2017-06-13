@@ -1,6 +1,6 @@
 {
   "name": "koa-chrome-render",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "chrome-render middleware for koa",
   "keywords": [
     "koa",
@@ -18,7 +18,7 @@
     "start": "node ./demo/main.js"
   },
   "dependencies": {
-    "chrome-render": "0.0.8"
+    "chrome-render": "^1.0.1"
   },
   "devDependencies": {
     "is-mobile": "^0.2.2",

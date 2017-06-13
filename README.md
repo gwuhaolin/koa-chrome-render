@@ -52,3 +52,8 @@ also koa-chrome-render will read:
 ## Dependencies
 1. [Chrome 59+](https://www.google.com/chrome/browser/desktop/index.html) should install on you system
 2. Nodejs 7+
+
+## Friends
+- [chrome-render](https://github.com/gwuhaolin/chrome-render) general server render base on chrome.
+- [koa-seo](https://github.com/gwuhaolin/koa-seo) koa SEO middleware
+- [chrome-pool](https://github.com/gwuhaolin/chrome-pool) Headless chrome tabs manage pool.
