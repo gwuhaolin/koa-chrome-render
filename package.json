@@ -13,6 +13,10 @@
   "engines": {
     "node": ">= 7.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:gwuhaolin/koa-chrome-render.git"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node ./demo/main.js"
