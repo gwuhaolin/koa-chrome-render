@@ -10,7 +10,7 @@ app.use(chromeRenderMiddleware({
         return isMobile(request);
     },
     render: {
-        // chrome-render #render() method ready option
+        // use `window.chromeRenderReady()` to notify chrome-render page has ready
         useReady: true,
     }
 }));
