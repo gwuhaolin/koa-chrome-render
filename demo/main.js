@@ -11,7 +11,7 @@ app.use(chromeRenderMiddleware({
     },
     render: {
         // chrome-render #render() method ready option
-        ready: '_page_ready',
+        useReady: true,
     }
 }));
 

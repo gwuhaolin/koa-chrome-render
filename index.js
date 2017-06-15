@@ -25,8 +25,8 @@ function chromeRenderMiddleware(options = {
         // number in ms, chromeRender.render() will throw error if html string can't be resolved after renderTimeout, default is 5000ms.
         renderTimeout: undefined,
 
-        // string is an option param. if it's omitted chrome will return page html on dom event domContentEventFired, else will waiting util js in web page call console.log(${ready's value}). et ready=_ready_flag when web page is ready call console.log('_ready_flag')
-        ready: undefined,
+        // boolean whether use window.chromeRenderReady() to notify chrome-render page has ready. default is false chrome-render use domContentEventFired as page has ready.
+        useReady: undefined,
         // string is an option param. inject script source to evaluate when page on load
         script: undefined,
     },
@@ -67,7 +67,7 @@ function chromeRenderMiddleware(options = {
              *      headers: `object {headerName:headerValue}` add HTTP headers when request web page
              *
              *      // from user config
-             *      ready: `string` is an option param. if it's absent chrome will return page html on dom event `domContentEventFired`, else will waiting util js in web page call `console.log(${ready's value})`. et `ready=_ready_flag` when web page is ready call `console.log('_ready_flag')`.
+             *      useReady: boolean whether use window.chromeRenderReady() to notify chrome-render page has ready. default is false chrome-render use domContentEventFired as page has ready.
              *      script: inject script to evaluate when page on load,
              * }
              */
