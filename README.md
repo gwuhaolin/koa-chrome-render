@@ -22,7 +22,7 @@ const app = new Koa();
 app.use(chromeRenderMiddleware({
     enable: true,
     render: {
-        // use `window.chromeRenderReady()` to notify chrome-render page has ready
+        // use `window.isPageReady=1` to notify chrome-render page has ready
         useReady: true,
     }
 }));
@@ -42,7 +42,7 @@ this can be used to control whether use chrome to render in some case, e.g [koa-
 options come form [chrome-render](https://github.com/gwuhaolin/chrome-render#chromerendernew-method-support-options)
 - `maxTab`: `number` max tab chrome will open to render pages, default is no limit, `maxTab` used to avoid open to many tab lead to chrome crash. `ChromeRender` will create a tab poll to reuse tab for performance improve and resource reduce as open and close tab in chrome require time, like database connection poll. 
 - `renderTimeout`: `number` in ms, `chromeRender.render()` will throw error if html string can't be resolved after `renderTimeout`, default is 5000ms.
-- `useReady`: `boolean` whether use `window.chromeRenderReady()` to notify chrome-render page has ready. default is false chrome-render use `domContentEventFired` as page has ready.
+- `useReady`: `boolean` whether use `window.isPageReady=1` to notify chrome-render page has ready. default is false chrome-render use `domContentEventFired` as page has ready.
 - `script`: `string` is an option param. inject script source to evaluate when page on load
 
 also koa-chrome-render will read:

@@ -6,15 +6,14 @@ const chromeRenderMiddleware = require('../index');
 const app = new Koa();
 
 app.use(chromeRenderMiddleware({
-    enable: (request) => {
-        return isMobile(request);
-    },
-    render: {
-        // use `window.chromeRenderReady()` to notify chrome-render page has ready
-        useReady: true,
-    }
+  enable: (request) => {
+    return isMobile(request);
+  },
+  render: {
+    // use `window.isPageReady=1` to notify chrome-render page has ready
+    useReady: true,
+  }
 }));
 
 app.use(serve(__dirname));
-
 app.listen(3000);
